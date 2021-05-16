@@ -1,0 +1,61 @@
+﻿<Window x:Class="CustomersOrders.View.CustomerMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CustomersOrders.View"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="CustomerMainWindow" Height="450" Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <command:EventToCommand Command="{Binding Path=OnAppCloseCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <DataTemplate x:Key="DataTemplateStockNum">
+            <xctk:IntegerUpDown Minimum="0" Value="0" 
+                                Maximum="{Binding StockNum, UpdateSourceTrigger=PropertyChanged}"/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="0" Margin="0, 25, 0, 0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Ваша корзина" TextWrapping="Wrap"/>
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding OrderInProcess.Products}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название товара" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Артикул" Binding="{Binding VendorCode}" />
+                        <DataGridTemplateColumn Header="Количество"
+                                                CellTemplate="{StaticResource DataTemplateStockNum}" />
+                        <DataGridTextColumn Header="Цена за 1 шт." Binding="{Binding CostPerStock}" />
+                        <DataGridTextColumn Header="Сумма" Binding="{Binding FullCost}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+        <GridSplitter  Grid.Column="1" ShowsPreview="False" Width="3"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+        <ScrollViewer Grid.Column="2" Margin="0, 25, 0, 0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Ваши заказы" TextWrapping="Wrap" />
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Customer.Orders}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                        <DataGridTextColumn Header="Дата" Binding="{Binding DateTimeOrderMade}" />
+                        <DataGridTextColumn Header="Статус" Binding="{Binding OrderStatus}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+
+
+    </Grid>
+</Window>
