@@ -96,7 +96,7 @@ namespace CustomersOrders.ViewModel {
             CurrentShop.Products.Add(new Product()
             {
                 Name = "Симпл-димпл", 
-                CostPerStock = 999,
+                CostPerStock = 3,
                 VendorCode = "eee_rock_1",
                 Description = "До сих пор не понимаю, чё это"
             });
