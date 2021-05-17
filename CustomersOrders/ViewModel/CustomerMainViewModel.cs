@@ -5,7 +5,7 @@ using CustomersOrders.Model;
 namespace CustomersOrders.ViewModel {
     public partial class CustomerMainViewModel : ShopInteractionViewModel {
         private Customer _customer;
-        private Order _orderInProcess;
+        private Order _orderInProcess = new Order();
 
         public Order OrderInProcess {
             get => _orderInProcess;

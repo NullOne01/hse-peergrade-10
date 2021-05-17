@@ -2,8 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CustomersOrders"
+             xmlns:converters="clr-namespace:CustomersOrders.View.Converters"
              StartupUri="View/AuthorizationWindow.xaml">
     <Application.Resources>
-         
+        <converters:OrderStatusToStringConvert x:Key="OrderStatusToStringConverter"/>
     </Application.Resources>
 </Application>

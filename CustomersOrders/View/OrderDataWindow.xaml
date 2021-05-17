@@ -1,0 +1,23 @@
+﻿<Window x:Class="CustomersOrders.View.OrderDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CustomersOrders.View"
+        mc:Ignorable="d"
+        Title="OrderDataWindow" Height="450" Width="800">
+    <Grid>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Order.Products}" 
+                          CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название товара" Binding="{Binding Product.Name}" />
+                <DataGridTextColumn Header="Артикул" Binding="{Binding Product.VendorCode}" />
+                <DataGridTextColumn Header="Количество" Binding="{Binding ProductNum}"/>
+                <DataGridTextColumn Header="Цена за 1 шт." Binding="{Binding Product.CostPerStock}" />
+                <DataGridTextColumn Header="Сумма" Binding="{Binding FullCost}" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Product.Description}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>

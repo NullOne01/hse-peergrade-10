@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,16 @@ namespace CustomersOrders.Model {
         private ObservableCollection<User> _users = new ObservableCollection<User>();
         private ObservableCollection<Product> _products = new ObservableCollection<Product>();
         private ObservableCollection<Order> _orders = new ObservableCollection<Order>();
+        private uint _currentId = 0;
+
+        [DataMember]
+        public uint CurrentID {
+            get => _currentId;
+            set {
+                _currentId = value;
+                OnPropertyChanged(nameof(CurrentID));
+            }
+        }
 
         [DataMember]
         public ObservableCollection<User> Users {
@@ -41,7 +52,6 @@ namespace CustomersOrders.Model {
             }
         }
 
-        // Possible bug here.
         public ObservableCollection<Seller> Sellers =>
             new ObservableCollection<Seller>(Users.Where(x => x is Seller).Cast<Seller>());
         public ObservableCollection<Customer> Customers => 
@@ -55,9 +65,18 @@ namespace CustomersOrders.Model {
             return Users.FirstOrDefault(x => x.Email == email && x.Password == password);
         }
 
-        public void AddOrder(Customer customer, Order order) {
+        public bool AddOrder(Customer customer, Order order) {
+            if (order.Products.Count <= 0)
+                return false;
+            if (order.Products.Sum(product => product.ProductNum) <= 0)
+                return false;
+            order.DateTimeOrderMade = DateTime.Now;
+            order.Id = CurrentID++;
+            order.Customer = customer;
             customer.Orders.Add(order);
             Orders.Add(order);
+
+            return true;
         }
         
         public bool RegisterUser(User user) {

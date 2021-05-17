@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace CustomersOrders.Model {
     [DataContract(IsReference = true)]
     public class Order : INotifyPropertyChanged {
-        private ObservableCollection<Product> _products = new ObservableCollection<Product>();
+        private ObservableCollection<OrderProduct> _products = new ObservableCollection<OrderProduct>();
         private DateTime _dateTimeOrderMade = DateTime.Now;
         private Customer _customer;
         private OrderStatus _orderStatus = OrderStatus.None;
@@ -23,7 +23,7 @@ namespace CustomersOrders.Model {
         }
         
         [DataMember]
-        public ObservableCollection<Product> Products {
+        public ObservableCollection<OrderProduct> Products {
             get => _products;
             set {
                 _products = value;
@@ -58,6 +58,7 @@ namespace CustomersOrders.Model {
             }
         }
 
+        [DataMember]
         public uint Id {
             get => _id;
             set {

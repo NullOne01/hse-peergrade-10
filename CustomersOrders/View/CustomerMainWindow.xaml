@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomersOrders.View"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:command="http://www.galasoft.ch/mvvmlight" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:command="http://www.galasoft.ch/mvvmlight" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:utilities="clr-namespace:CustomersOrders.View.Utilities"
         mc:Ignorable="d"
         Title="CustomerMainWindow" Height="450" Width="800">
     <i:Interaction.Triggers>
@@ -15,9 +15,26 @@
     </i:Interaction.Triggers>
     <Window.Resources>
         <DataTemplate x:Key="DataTemplateStockNum">
-            <xctk:IntegerUpDown Minimum="0" Value="0" 
-                                Maximum="{Binding StockNum, UpdateSourceTrigger=PropertyChanged}"/>
+            <xctk:IntegerUpDown Minimum="0" Value="{Binding ProductNum, UpdateSourceTrigger=PropertyChanged}"/>
         </DataTemplate>
+        <DataTemplate x:Key="DataTemplateName">
+            <ComboBox ItemsSource="{Binding DataContext.CurrentShop.Products, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} }" 
+                      SelectedItem="{Binding Product, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name">
+
+            </ComboBox>
+        </DataTemplate>
+        <utilities:BindingProxy x:Key="Proxy" Data="{Binding}" />
+        <ContextMenu  x:Key="RowOrderMenu" >
+            <MenuItem Header="Оплатить" 
+                      Command="{Binding Source={StaticResource Proxy}, Path=Data.PayOrderCommand}"
+                      CommandParameter="{Binding}"/>
+            <MenuItem Header="Показать товары" 
+                      Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowOrderCommand}"
+                      CommandParameter="{Binding}"/>
+            </ContextMenu>
+        <Style x:Key="DefaultOrderRowStyle" TargetType="{x:Type DataGridRow}">
+            <Setter Property="ContextMenu" Value="{StaticResource RowOrderMenu}" />
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,16 +44,22 @@
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Column="0" Margin="0, 25, 0, 0">
             <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Сделать заказ" Width="90" Command="{Binding MakeOrderCommand}"/>
+                    <Button Content="Добавить товар в корзину" Width="150" Command="{Binding AddProductCommand}"/>
+                </StackPanel>
                 <TextBlock Text="Ваша корзина" TextWrapping="Wrap"/>
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding OrderInProcess.Products}">
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding OrderInProcess.Products}" 
+                          CanUserAddRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Название товара" Binding="{Binding Name}" />
-                        <DataGridTextColumn Header="Артикул" Binding="{Binding VendorCode}" />
+                        <DataGridTemplateColumn Header="Название товара" 
+                                            CellTemplate="{StaticResource DataTemplateName}" />
+                        <DataGridTextColumn Header="Артикул" Binding="{Binding Product.VendorCode}" />
                         <DataGridTemplateColumn Header="Количество"
                                                 CellTemplate="{StaticResource DataTemplateStockNum}" />
-                        <DataGridTextColumn Header="Цена за 1 шт." Binding="{Binding CostPerStock}" />
+                        <DataGridTextColumn Header="Цена за 1 шт." Binding="{Binding Product.CostPerStock}" />
                         <DataGridTextColumn Header="Сумма" Binding="{Binding FullCost}" />
-                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Product.Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
@@ -46,11 +69,12 @@
         <ScrollViewer Grid.Column="2" Margin="0, 25, 0, 0">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Ваши заказы" TextWrapping="Wrap" />
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Customer.Orders}">
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Customer.Orders}" IsReadOnly="True"
+                          RowStyle="{StaticResource DefaultOrderRowStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                         <DataGridTextColumn Header="Дата" Binding="{Binding DateTimeOrderMade}" />
-                        <DataGridTextColumn Header="Статус" Binding="{Binding OrderStatus}" />
+                        <DataGridTextColumn Header="Статус" Binding="{Binding OrderStatus, Converter={StaticResource OrderStatusToStringConverter}}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

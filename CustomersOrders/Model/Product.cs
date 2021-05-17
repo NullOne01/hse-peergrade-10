@@ -10,7 +10,6 @@ namespace CustomersOrders.Model {
         private string _name;
         private string _vendorCode;
         private uint _costPerStock;
-        private uint _stockNum;
         private string _description;
 
         /// <summary>
@@ -24,7 +23,6 @@ namespace CustomersOrders.Model {
                 Name = random.RandomString(10),
                 VendorCode = random.RandomString(5),
                 CostPerStock = (uint) random.Next(1, 101),
-                StockNum = (uint) random.Next(1, 101),
                 Description = random.RandomString(15)
             };
         }
@@ -53,17 +51,6 @@ namespace CustomersOrders.Model {
             set {
                 _costPerStock = value;
                 OnPropertyChanged(nameof(CostPerStock));
-                OnPropertyChanged(nameof(FullCost));
-            }
-        }
-
-        [DataMember]
-        public uint StockNum {
-            get => _stockNum;
-            set {
-                _stockNum = value;
-                OnPropertyChanged(nameof(StockNum));
-                OnPropertyChanged(nameof(FullCost));
             }
         }
 
@@ -76,8 +63,6 @@ namespace CustomersOrders.Model {
                 OnPropertyChanged(nameof(Description));
             }
         }
-
-        public uint FullCost => StockNum * CostPerStock;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

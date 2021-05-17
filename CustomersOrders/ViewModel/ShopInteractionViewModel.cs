@@ -62,7 +62,11 @@ namespace CustomersOrders.ViewModel {
             Customer newCustomer = new Customer("1", "1", "1", "1", "1", "1", "1");
             shop.Users.Add(newCustomer);
 
-            Order newOrder = new Order(newCustomer, 1);
+            CurrentShop.Products.Add(new Product(){Name = "Жопа", CostPerStock = 4});
+            CurrentShop.Products.Add(new Product(){Name = "НеЖопа", CostPerStock = 2});
+
+            Order newOrder = new Order() {OrderStatus = OrderStatus.Processed};
+            newOrder.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[0] });
             shop.AddOrder(newCustomer, newOrder);
         }
 
