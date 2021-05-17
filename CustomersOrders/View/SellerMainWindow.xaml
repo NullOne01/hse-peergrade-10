@@ -3,10 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CustomersOrders.View"
+        xmlns:local="clr-namespace:CustomersOrders.View" xmlns:utilities="clr-namespace:CustomersOrders.View.Utilities" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         Title="SellerMainWindow" Height="450" Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <command:EventToCommand Command="{Binding Path=OnAppCloseCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <utilities:BindingProxy x:Key="Proxy" Data="{Binding}" />
+        <ContextMenu  x:Key="RowCustomerMenu" >
+            <MenuItem Header="Показать заказы" 
+                      Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowOrdersCommand}"
+                      CommandParameter="{Binding}"/>
+        </ContextMenu>
+        <Style x:Key="DefaultCustomerRowStyle" TargetType="{x:Type DataGridRow}">
+            <Setter Property="ContextMenu" Value="{StaticResource RowCustomerMenu}" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <StackPanel Orientation="Vertical" Margin="0, 25, 0, 0">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Показать все заказы" Command="{Binding ShowAllOrdersCommand}"/>
+                <Button Content="Показать все активные заказы" Command="{Binding ShowAllActiveOrdersCommand}"/>
+            </StackPanel>
+            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CurrentShop.Customers}" 
+                          CanUserAddRows="False" IsReadOnly="True" RowStyle="{StaticResource DefaultCustomerRowStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" />
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding SecondName}" />
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/>
+                    <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
     </Grid>
 </Window>

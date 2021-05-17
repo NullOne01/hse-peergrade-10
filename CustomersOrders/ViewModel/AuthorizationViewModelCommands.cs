@@ -16,19 +16,22 @@ namespace CustomersOrders.ViewModel {
                         MessageBox.Show("Такого юзера нет");
                     }
 
+                    // TODO: close
                     if (user is Customer customer) {
                         CustomerMainWindow customerMainWindow = new CustomerMainWindow(CurrentShop, customer);
                         customerMainWindow.Show();
-                        // TODO: close
-                    } else {
-                        
+                    }
+
+                    if (user is Seller seller) {
+                        SellerMainWindow sellerMainWindow = new SellerMainWindow(CurrentShop, seller);
+                        sellerMainWindow.Show();
                     }
                 });
-                
+
                 return _authorizationCommand;
             }
         }
-        
+
         private RelayCommand _registrationCommand;
 
         public RelayCommand RegistrationCommand {

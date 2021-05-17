@@ -15,14 +15,14 @@ using CustomersOrders.ViewModel;
 namespace CustomersOrders.View
 {
     /// <summary>
-    /// Interaction logic for SellerMainWindow.xaml
+    /// Interaction logic for OrdersWindow.xaml
     /// </summary>
-    public partial class SellerMainWindow : Window
+    public partial class OrdersWindow : Window
     {
-        public SellerMainWindow(Shop shop, Seller seller) {
+        public OrdersWindow(Shop shop, Customer customer, bool IsActiveOnly = false) {
             InitializeComponent();
 
-            DataContext = new SellerMainViewModel(shop, seller);
+            DataContext = new OrdersViewModel(shop, customer, IsActiveOnly);
         }
     }
 }

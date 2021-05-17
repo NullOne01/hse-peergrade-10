@@ -62,6 +62,9 @@ namespace CustomersOrders.ViewModel {
             Customer newCustomer = new Customer("1", "1", "1", "1", "1", "1", "1");
             shop.Users.Add(newCustomer);
 
+            Seller newSeller = new Seller("2", "2");
+            shop.Users.Add(newSeller);
+
             CurrentShop.Products.Add(new Product(){Name = "Жопа", CostPerStock = 4});
             CurrentShop.Products.Add(new Product(){Name = "НеЖопа", CostPerStock = 2});
 

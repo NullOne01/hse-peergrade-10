@@ -29,6 +29,11 @@ namespace CustomersOrders.Model {
             set {
                 _users = value;
                 OnPropertyChanged(nameof(Users));
+                // Some bug possible?
+                Users.CollectionChanged += (sender, args) => {
+                    OnPropertyChanged(nameof(Sellers));
+                    OnPropertyChanged(nameof(Customers));
+                };
                 OnPropertyChanged(nameof(Sellers));
                 OnPropertyChanged(nameof(Customers));
             }
@@ -49,18 +54,23 @@ namespace CustomersOrders.Model {
             set {
                 _orders = value;
                 OnPropertyChanged(nameof(Orders));
+                OnPropertyChanged(nameof(ActiveOrders));
             }
         }
 
         public ObservableCollection<Seller> Sellers =>
             new ObservableCollection<Seller>(Users.Where(x => x is Seller).Cast<Seller>());
-        public ObservableCollection<Customer> Customers => 
+
+        public ObservableCollection<Customer> Customers =>
             new ObservableCollection<Customer>(Users.Where(x => !(x is Seller)).Cast<Customer>());
+
+        public ObservableCollection<Order> ActiveOrders =>
+            new ObservableCollection<Order>(Orders.Where(x => !x.OrderStatus.HasFlag(OrderStatus.Executed)));
 
         private bool WasEmailTaken(string email) {
             return Users.Any(user => user.Email == email);
         }
-        
+
         public User GetCustomerByEmailPassword(string email, string password) {
             return Users.FirstOrDefault(x => x.Email == email && x.Password == password);
         }
@@ -78,14 +88,14 @@ namespace CustomersOrders.Model {
 
             return true;
         }
-        
+
         public bool RegisterUser(User user) {
             if (WasEmailTaken(user.Email))
                 return false;
             Users.Add(user);
             return true;
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
