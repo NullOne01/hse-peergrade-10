@@ -6,6 +6,9 @@ using CustomersOrders.ViewModel.Utilities;
 using GalaSoft.MvvmLight.CommandWpf;
 
 namespace CustomersOrders.ViewModel {
+    /// <summary>
+    /// Base class of Views which work with CurrentShop. Have commands which save/load app progress.
+    /// </summary>
     public class ShopInteractionViewModel : INotifyPropertyChanged {
         private Shop _currentShop;
 
@@ -58,19 +61,67 @@ namespace CustomersOrders.ViewModel {
             }
         }
 
+        /// <summary>
+        /// Some debug values. Making ready XML is too boring.
+        /// </summary>
+        /// <param name="shop"> Shop to fill data into </param>
         private void FillDebugShop(Shop shop) {
-            Customer newCustomer = new Customer("1", "1", "1", "1", "1", "1", "1");
-            shop.Users.Add(newCustomer);
+            Customer newCustomer1 = new Customer("1", "1", 
+                "Влад", "Бумага", "Попитович", "8-800-555-35-35", 
+                "Улица Пушкина, дом Колотушкина");
+            shop.RegisterUser(newCustomer1);
+            
+            Customer newCustomer2 = new Customer("3", "3", 
+                "Невлад", "Камень", "КтоЯ", "8-800-555-35-35", 
+                "Улица Колотушкина, дом Пушкина");
+            shop.RegisterUser(newCustomer2);
 
             Seller newSeller = new Seller("2", "2");
-            shop.Users.Add(newSeller);
+            shop.RegisterUser(newSeller);
 
-            CurrentShop.Products.Add(new Product(){Name = "Жопа", CostPerStock = 4});
-            CurrentShop.Products.Add(new Product(){Name = "НеЖопа", CostPerStock = 2});
+            CurrentShop.Products.Add(new Product()
+            {
+                Name = "Деньги", 
+                CostPerStock = 1,
+                VendorCode = "A4",
+                Description = "Можно купить деньги за деньги"
+            });
+            CurrentShop.Products.Add(new Product()
+            {
+                Name = "Молочко", 
+                CostPerStock = 2,
+                VendorCode = "A1",
+                Description = "Молоко - круто"
+            });
+            CurrentShop.Products.Add(new Product()
+            {
+                Name = "Симпл-димпл", 
+                CostPerStock = 999,
+                VendorCode = "eee_rock_1",
+                Description = "До сих пор не понимаю, чё это"
+            });
 
-            Order newOrder = new Order() {OrderStatus = OrderStatus.Processed};
-            newOrder.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[0] });
-            shop.AddOrder(newCustomer, newOrder);
+            Order newOrder1 = new Order();
+            newOrder1.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[0], ProductNum = 1});
+            newOrder1.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[1], ProductNum = 2});
+            
+            Order newOrder2 = new Order() {OrderStatus = OrderStatus.Processed};
+            newOrder2.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[2], ProductNum = 1});
+            newOrder2.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[1], ProductNum = 3});
+            
+            Order newOrder3 = new Order() {OrderStatus = OrderStatus.Executed};
+            newOrder3.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[0], ProductNum = 1});
+            newOrder3.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[1], ProductNum = 1});
+            newOrder3.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[2], ProductNum = 1});
+            
+            shop.AddOrder(newCustomer1, newOrder1);
+            shop.AddOrder(newCustomer1, newOrder2);
+            shop.AddOrder(newCustomer1, newOrder3);
+            
+            Order newOrder4 = new Order();
+            newOrder4.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[0], ProductNum = 3});
+            newOrder4.Products.Add(new OrderProduct(){ Product = CurrentShop.Products[2], ProductNum = 1});
+            shop.AddOrder(newCustomer2, newOrder4);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

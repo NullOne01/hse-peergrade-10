@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:command="http://www.galasoft.ch/mvvmlight" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:utilities="clr-namespace:CustomersOrders.View.Utilities"
         mc:Ignorable="d"
-        Title="CustomerMainWindow" Height="450" Width="800">
+        Title="Окно покупателя" Height="450" Width="800">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <command:EventToCommand Command="{Binding Path=OnAppCloseCommand}" />
@@ -42,7 +42,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Column="0" Margin="0, 25, 0, 0">
+        <ScrollViewer Grid.Column="0">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Сделать заказ" Width="90" Command="{Binding MakeOrderCommand}"/>
@@ -66,7 +66,7 @@
         </ScrollViewer>
         <GridSplitter  Grid.Column="1" ShowsPreview="False" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-        <ScrollViewer Grid.Column="2" Margin="0, 25, 0, 0">
+        <ScrollViewer Grid.Column="2">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Ваши заказы" TextWrapping="Wrap" />
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Customer.Orders}" IsReadOnly="True"
@@ -75,6 +75,7 @@
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                         <DataGridTextColumn Header="Дата" Binding="{Binding DateTimeOrderMade}" />
                         <DataGridTextColumn Header="Статус" Binding="{Binding OrderStatus, Converter={StaticResource OrderStatusToStringConverter}}" />
+                        <DataGridTextColumn Header="Сумма заказа" Binding="{Binding FullOrderPrice}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

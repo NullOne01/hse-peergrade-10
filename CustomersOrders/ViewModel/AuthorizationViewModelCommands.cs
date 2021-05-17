@@ -8,6 +8,9 @@ namespace CustomersOrders.ViewModel {
     public partial class AuthorizationViewModel {
         private RelayCommand _authorizationCommand;
 
+        /// <summary>
+        /// Command to authorize user. User can be both Seller and Customer.
+        /// </summary>
         public RelayCommand AuthorizationCommand {
             get {
                 _authorizationCommand = new RelayCommand(() => {
@@ -16,7 +19,7 @@ namespace CustomersOrders.ViewModel {
                         MessageBox.Show("Такого юзера нет");
                     }
 
-                    // TODO: close
+                    // TODO: close the window.
                     if (user is Customer customer) {
                         CustomerMainWindow customerMainWindow = new CustomerMainWindow(CurrentShop, customer);
                         customerMainWindow.Show();
@@ -34,6 +37,9 @@ namespace CustomersOrders.ViewModel {
 
         private RelayCommand _registrationCommand;
 
+        /// <summary>
+        /// Command to open registration window.
+        /// </summary>
         public RelayCommand RegistrationCommand {
             get {
                 _registrationCommand = new RelayCommand(() => {

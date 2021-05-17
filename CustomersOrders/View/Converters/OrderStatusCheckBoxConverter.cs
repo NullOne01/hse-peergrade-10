@@ -4,6 +4,9 @@ using System.Windows.Data;
 using CustomersOrders.Model;
 
 namespace CustomersOrders.View.Converters {
+    /// <summary>
+    /// Converter between ComboBox values and OrderStatus flags.
+    /// </summary>
     public class OrderStatusCheckBoxConverter : IValueConverter {
         private OrderStatus target;
 

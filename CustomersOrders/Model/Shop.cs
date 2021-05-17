@@ -71,15 +71,31 @@ namespace CustomersOrders.Model {
             return Users.Any(user => user.Email == email);
         }
 
+        /// <summary>
+        /// Gets user by their email and password if possible.
+        /// </summary>
+        /// <returns> User if email and password are correct. Null if not. </returns>
         public User GetCustomerByEmailPassword(string email, string password) {
-            return Users.FirstOrDefault(x => x.Email == email && x.Password == password);
+            // Salt right here. No fucks given.
+            return Users.FirstOrDefault(x => x.Email == email && User.VerifyHash(password + email, x.Password));
         }
 
+        /// <summary>
+        /// Adds customer's order into order list. Checks order and remove some zero values.
+        /// </summary>
+        /// <returns> True if order was added. Otherwise, false. </returns>
         public bool AddOrder(Customer customer, Order order) {
             if (order.Products.Count <= 0)
                 return false;
             if (order.Products.Sum(product => product.ProductNum) <= 0)
                 return false;
+
+            // Removing zero-products from the order.
+            for (int i = 0; i < order.Products.Count; i++) {
+                if (order.Products[i].ProductNum <= 0)
+                    order.Products.RemoveAt(i);
+            }
+
             order.DateTimeOrderMade = DateTime.Now;
             order.Id = CurrentID++;
             order.Customer = customer;
@@ -89,9 +105,16 @@ namespace CustomersOrders.Model {
             return true;
         }
 
+        /// <summary>
+        /// Registers new user. Check if it is possible.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns> True if user was registered. Otherwise, false. </returns>
         public bool RegisterUser(User user) {
             if (WasEmailTaken(user.Email))
                 return false;
+            // Salt right here. No fucks given.
+            user.Password = User.GetHash(user.Password + user.Email);
             Users.Add(user);
             return true;
         }

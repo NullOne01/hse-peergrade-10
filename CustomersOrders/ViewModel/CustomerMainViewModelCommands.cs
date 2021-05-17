@@ -8,6 +8,9 @@ namespace CustomersOrders.ViewModel {
     public partial class CustomerMainViewModel {
         private RelayCommand _makeOrderCommand;
 
+        /// <summary>
+        /// Command to move bin values into order list.
+        /// </summary>
         public RelayCommand MakeOrderCommand {
             get {
                 _makeOrderCommand = new RelayCommand(() => {
@@ -24,6 +27,9 @@ namespace CustomersOrders.ViewModel {
 
         private RelayCommand _addProductCommand;
 
+        /// <summary>
+        /// Command to add some default product into the bin.
+        /// </summary>
         public RelayCommand AddProductCommand {
             get {
                 _addProductCommand = new RelayCommand(() => {
@@ -36,6 +42,9 @@ namespace CustomersOrders.ViewModel {
 
         private RelayCommand<Order> _payOrderCommand;
 
+        /// <summary>
+        /// Command to pay for an order if it is possible.
+        /// </summary>
         public RelayCommand<Order> PayOrderCommand {
             get {
                 _payOrderCommand = new RelayCommand<Order>((order) => { order.OrderStatus |= OrderStatus.Paid; },
@@ -50,6 +59,9 @@ namespace CustomersOrders.ViewModel {
         
         private RelayCommand<Order> _showOrderCommand;
 
+        /// <summary>
+        /// Command to open window with information about some order.
+        /// </summary>
         public RelayCommand<Order> ShowOrderCommand {
             get {
                 _showOrderCommand = new RelayCommand<Order>(

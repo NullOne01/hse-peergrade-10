@@ -1,6 +1,9 @@
 ﻿using System.Windows;
 
 namespace CustomersOrders.View.Utilities {
+    /// <summary>
+    /// Proxy to make ContextMenus see their global DataContext.
+    /// </summary>
     public class BindingProxy : Freezable
     {
         protected override Freezable CreateInstanceCore()

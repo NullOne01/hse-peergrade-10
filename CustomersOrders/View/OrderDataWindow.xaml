@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomersOrders.View"
         mc:Ignorable="d"
-        Title="OrderDataWindow" Height="450" Width="800">
+        Title="Окно заказа" Height="450" Width="800">
     <Grid>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Order.Products}" 
                           CanUserAddRows="False" IsReadOnly="True">

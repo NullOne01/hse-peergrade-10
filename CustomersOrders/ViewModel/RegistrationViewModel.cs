@@ -4,7 +4,7 @@ using CustomersOrders.Model;
 
 namespace CustomersOrders.ViewModel {
     public partial class RegistrationViewModel : ShopInteractionViewModel {
-        // eto trash
+        // Input fields.
         private string _firstName;
         private string _secondName;
         private string _middleName;

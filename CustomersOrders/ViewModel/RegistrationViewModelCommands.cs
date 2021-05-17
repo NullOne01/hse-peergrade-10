@@ -6,6 +6,9 @@ namespace CustomersOrders.ViewModel {
     public partial class RegistrationViewModel {
         private RelayCommand _registerCustomerCommand;
 
+        /// <summary>
+        /// Command to register new customer. Checks input fields and possibility of registration.
+        /// </summary>
         public RelayCommand RegisterCustomerCommand {
             get {
                 _registerCustomerCommand = new RelayCommand(() => {
@@ -30,6 +33,9 @@ namespace CustomersOrders.ViewModel {
 
         private RelayCommand _registerSellerCommand;
 
+        /// <summary>
+        /// Command to register new seller. Checks input fields and possibility of registration.
+        /// </summary>
         public RelayCommand RegisterSellerCommand {
             get {
                 _registerSellerCommand = new RelayCommand(() => {

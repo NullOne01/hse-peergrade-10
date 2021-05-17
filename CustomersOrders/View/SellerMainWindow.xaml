@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomersOrders.View" xmlns:utilities="clr-namespace:CustomersOrders.View.Utilities" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
-        Title="SellerMainWindow" Height="450" Width="800">
+        Title="Окно продавца" Height="450" Width="800">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <command:EventToCommand Command="{Binding Path=OnAppCloseCommand}" />
@@ -23,11 +23,12 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel Orientation="Vertical" Margin="0, 25, 0, 0">
+        <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
                 <Button Content="Показать все заказы" Command="{Binding ShowAllOrdersCommand}"/>
                 <Button Content="Показать все активные заказы" Command="{Binding ShowAllActiveOrdersCommand}"/>
             </StackPanel>
+            <TextBlock Text="Пользователи:" TextWrapping="Wrap"/>
             <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CurrentShop.Customers}" 
                           CanUserAddRows="False" IsReadOnly="True" RowStyle="{StaticResource DefaultCustomerRowStyle}">
                 <DataGrid.Columns>

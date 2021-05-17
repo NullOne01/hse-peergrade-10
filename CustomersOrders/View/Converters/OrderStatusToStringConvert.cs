@@ -5,13 +5,15 @@ using System.Text;
 using System.Windows.Data;
 
 namespace CustomersOrders.View.Converters {
+    /// <summary>
+    /// Converter from OrderStatus to string value.
+    /// </summary>
     class OrderStatusToStringConvert : IValueConverter {
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture) {
             try {
                 string enumString = string.Empty;
                 OrderStatus orderStatus = (OrderStatus) value;
-                //обработан, оплачен, отгружен, исполнен
                 if (orderStatus.HasFlag(OrderStatus.Processed)) {
                     enumString += "обработан ";
                 }
